@@ -6,48 +6,62 @@
 
 import java.util.ArrayList;
 import java.util.PriorityQueue;
-import java.lang.Comparable;
 
-public class ArrayPriorityQueue<T> implements PriorityQueue{
+public class ArrayPriorityQueue<Ticket> implements PriorityQueue{
 
     /**---------------------------------------------------
      * Class: ArrayPriorityQueue
      ** Implements PriorityQueue
      ** Uses ArrayList as its underlying data structure
      ---------------------------------------------------**/
-
-    private ArrayList<T> _data; // underlying structure
-
+    private ArrayList<Ticket> _line =  new ArrayList<Ticket>(); // underlying structure
+    private int[] indices;
+    
     public ArrayPriorityQueue(){
+	ArrayPriorityQueue(2);
     }
-
+    
+    public ArrayPriorityQueue(int numLevels){
+	indices = new int[numLevels];
+	for( int i = 0; numLevels < numLevels; i++ ){
+	    indices[i] = 0;
+	}
+    }
+    
     /* Description copied from interface: PriorityQueue
      * x - is the object added to this priority queue
      * Adds an item to this priority queue.
      */
-    public void add( T x ){
-
+    public void add( Ticket t ){
+	int priority = t.getPriority();    
+	_line.add( indices[priority] , t);
+	for(int i = priority; i > -1; i-- ){
+	    indices[priority]++;
+	}
     }
     
     /* Description copied from interface: PriorityQueue
      * Returns true if this stack is empty, otherwise returns false.
      */
     public boolean isEmpty(){
-	return _data.size() == 0;
+	return _line.size() == 0;
     }
     
     /* Description copied from interface: PriorityQueue
      *  Returns the smallest item stored in this priority queue without removing it.
      */
     public T peekMin(){
-
+	return _line.get(_line.size() - 1);
     }
     
     /* Description copied from interface: PriorityQueue
      * Removes and returns the smallest item stored in this priority queue.
      */
     public T removeMin(){
-
+	int priority = (_line.remove(_line.getSize()-1)).getPriority();
+	for(int i =  priority; i > -1; i-- ){
+	    indices[i]--;
+	}
     }
     
     public static void main( String[] args ){
