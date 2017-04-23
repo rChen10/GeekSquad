@@ -24,12 +24,17 @@ public class ArrayPriorityQueue<T extends Comparable> implements PriorityQueue<T
     public void binarySearch( ArrayList<T> a, int min, int max, T x ){
 	int index = (min + max)/2;
 	if( min+1 == max ){
-	    if( (a.get(min)).compareTo(x) > -1 ){a.add(min,x);}
-	    else{ a.add(max,x); }
+	    if( (a.get(min)).compareTo(x) > 0 ){a.add(min,x);}
+	    if( (a.get(min)).compareTo(x) < 0 ){
+		if ( (a.get(max)).compareTo(x) > 0 )
+		    a.add(max,x);
+		else{ a.add(max + 1,x); }
+	    }
+	    else{ a.add(min, x); }
 	}
-	else if( x.compareTo(a.get(index)) < 0 ){ binarySearch(a,index,max,x); }
+	else if( x.compareTo(a.get(index)) < 0 ){ binarySearch(a,min,index,x); }
 	else if( x.compareTo(a.get(index)) == 0 ){ a.add(index,x); }
-	else{ binarySearch(a,min,index,x); }
+	else{ binarySearch(a,index,max,x); }
     }
     
     /* Description copied from interface: PriorityQueue
@@ -39,7 +44,8 @@ public class ArrayPriorityQueue<T extends Comparable> implements PriorityQueue<T
     public void add( T x ){
 	if( isEmpty() ){ _data.add(x); }
         else{ binarySearch(_data,0,_data.size(),x); }
-    }
+	System.out.println(_data);
+    }// O(n)
     
     /* Description copied from interface: PriorityQueue
      * Returns true if this stack is empty, otherwise returns false.
