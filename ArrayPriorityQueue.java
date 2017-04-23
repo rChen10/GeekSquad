@@ -5,67 +5,69 @@
 
 
 import java.util.ArrayList;
-import java.util.PriorityQueue;
 
-public class ArrayPriorityQueue<Ticket> implements PriorityQueue{
+public class ArrayPriorityQueue<T extends Comparable> implements PriorityQueue<T>{
 
     /**---------------------------------------------------
      * Class: ArrayPriorityQueue
      ** Implements PriorityQueue
      ** Uses ArrayList as its underlying data structure
      ---------------------------------------------------**/
-    private ArrayList<Ticket> _line =  new ArrayList<Ticket>(); // underlying structure
-    private int[] indices;
+    
+    private ArrayList<T> _data; // underlying structure
     
     public ArrayPriorityQueue(){
-	ArrayPriorityQueue(2);
+	_data =  new ArrayList<T>();
     }
-    
-    public ArrayPriorityQueue(int numLevels){
-	indices = new int[numLevels];
-	for( int i = 0; numLevels < numLevels; i++ ){
-	    indices[i] = 0;
+
+    //finds the index that x should be placed in arrayList a and places it there
+    public void binarySearch( ArrayList<T> a, int min, int max, T x ){
+	int index = (min + max)/2;
+	if( min+1 == max ){
+	    if( (a.get(min)).compareTo(x) > -1 ){a.add(min,x);}
+	    else{ a.add(max,x); }
 	}
+	else if( x.compareTo(a.get(index)) < 0 ){ binarySearch(a,index,max,x); }
+	else if( x.compareTo(a.get(index)) == 0 ){ a.add(index,x); }
+	else{ binarySearch(a,min,index,x); }
     }
     
     /* Description copied from interface: PriorityQueue
      * x - is the object added to this priority queue
      * Adds an item to this priority queue.
      */
-    public void add( Ticket t ){
-	int priority = t.getPriority();    
-	_line.add( indices[priority] , t);
-	for(int i = priority; i > -1; i-- ){
-	    indices[priority]++;
-	}
+    public void add( T x ){
+	if( isEmpty() ){ _data.add(x); }
+        else{ binarySearch(_data,0,_data.size(),x); }
     }
     
     /* Description copied from interface: PriorityQueue
      * Returns true if this stack is empty, otherwise returns false.
      */
     public boolean isEmpty(){
-	return _line.size() == 0;
+	return _data.size() == 0;
     }
     
     /* Description copied from interface: PriorityQueue
      *  Returns the smallest item stored in this priority queue without removing it.
      */
     public T peekMin(){
-	return _line.get(_line.size() - 1);
+	return _data.get(_data.size() - 1);
     }
     
     /* Description copied from interface: PriorityQueue
      * Removes and returns the smallest item stored in this priority queue.
      */
     public T removeMin(){
-	int priority = (_line.remove(_line.getSize()-1)).getPriority();
-	for(int i =  priority; i > -1; i-- ){
-	    indices[i]--;
-	}
+	return _data.remove(_data.size()-1);
+    }
+
+    public String toString(){
+	return _data.toString();
     }
     
     public static void main( String[] args ){
-	PriorityQueue Barry = new PriorityQueue<Integer>();
+	ArrayPriorityQueue<Integer> Barry = new ArrayPriorityQueue<Integer>();
 	
 	System.out.println( "PriorityQueue Barry: " + Barry );
 	System.out.println( "Is Barry empty? (t/f): " + Barry.isEmpty() );
