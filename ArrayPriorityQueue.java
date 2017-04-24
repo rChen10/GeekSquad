@@ -75,6 +75,12 @@ public class ArrayPriorityQueue<T extends Comparable> implements PriorityQueue<T
 	String RetStr = "["+ _data.get(0) + ", "+ _data.get(1) + ", " + _data.get(2) + "]";
 	return RetStr;
     }
+    public int size(){
+	return _data.size();
+    }
+    public T get(int index){
+	return _data.get(index);
+    }
     
     public static void main( String[] args ){
 	ArrayPriorityQueue<Integer> Barry = new ArrayPriorityQueue<Integer>();

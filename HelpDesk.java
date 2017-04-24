@@ -1,5 +1,5 @@
 import cs1.Keyboard;
-
+import java.lang.Math;
 public class HelpDesk{
 
     ArrayPriorityQueue<Ticket> _line;
@@ -39,18 +39,37 @@ public class HelpDesk{
 		System.out.println("What is your priority?");
 		int priority = Keyboard.readInt();
 		
-		System.out.println("What is your ID?"); // ID should be generated so change later
-		String ID = Keyboard.readWord();
+		
+		int ID = (int)(Math.random() * 1000);
+		System.out.println("Your ID is " + ID + ". Keep Track of it!");
 
 		desk._line.add( new Ticket(name, priority, ID) );
 		
 	    }
+	    
 
 	    else if ( response == 2){
-		System.out.println(desk.question());
+		int statIndex =-1;
+		System.out.println("What is your ID?"); // ID should be generated so change later
+		int IDcheck = Keyboard.readInt();
+		for(int i = 0; i <desk._line.size(); i++){
+		    int TempID = desk._line.get(i).getID();
+		    if(TempID == IDcheck){
+			statIndex = i;
+			break;
+		    }
+		}
+		if(statIndex == -1 ){
+		    System.out.println("Invalid ID");
+		}
+		else{
+		    System.out.println(desk._line.get(statIndex).getStatus());
+		}
+		
 	    }
 
 	    else{
+
 		System.out.println("Invalid response");
 	    }
 
