@@ -23,6 +23,9 @@ public class ArrayPriorityQueue<T extends Comparable> implements PriorityQueue<T
     //finds the index that x should be placed in arrayList a and places it there
     public void binarySearch( ArrayList<T> a, int min, int max, T x ){
 	int index = (min + max)/2;
+	if(max == 0){
+	    return ;
+	}
 	if( min+1 == max ){
 	    if( (a.get(min)).compareTo(x) > 0 ){a.add(min,x);}
 	    if( (a.get(min)).compareTo(x) < 0 ){
@@ -43,7 +46,7 @@ public class ArrayPriorityQueue<T extends Comparable> implements PriorityQueue<T
      */
     public void add( T x ){
 	if( isEmpty() ){ _data.add(x); }
-        else{ binarySearch(_data,0,_data.size(),x); }
+        else{ binarySearch(_data,0,_data.size()-1,x); }
 	System.out.println(_data);
     }// O(n)
     
@@ -69,7 +72,8 @@ public class ArrayPriorityQueue<T extends Comparable> implements PriorityQueue<T
     }
 
     public String toString(){
-	return _data.toString();
+	String RetStr = "["+ _data.get(0) + ", "+ _data.get(1) + ", " + _data.get(2) + "]";
+	return RetStr;
     }
     
     public static void main( String[] args ){
