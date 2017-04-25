@@ -6,12 +6,14 @@ public class Ticket implements Comparable{
     private int _priority; // 0 is HighPriority
     private String _name;
     private int _status; // 0 is not yet worked on, 1 is in progress, 2 is resolved
+    private String _description;
 
-    public Ticket(String Name, int Priority, int ID){
-	_priority = Priority;
-	_name = Name;
+    public Ticket(String newName, int newPriority, int newID, String newDescription){
+	_priority = newPriority;
+	_name = newName;
 	_status = 0;
-	_ID = ID;
+	_ID = newID;
+	_description = newDescription;
     }
     
     public int getID(){
